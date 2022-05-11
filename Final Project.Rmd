@@ -1,0 +1,426 @@
+---
+title: <span style="color:purple"><b><i>Final Project ISE 201</i></b></span>
+author: <span style="color:purple"><b><i>Deep Mehta
+date: <span style="color:purple"><b><i>5/10/2022
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<u><b><i><h3>Introduction.</h3></i></b></u>
+
+
+##### I have selected this dataset as my final project for the course, because I want to perform analysis and predict the median of prices of the houses that are based on the particular block in the state of California. There is a widespread news about the houses in California are becoming more and more expensive based on the their location, people with higher income able to afford the sea side houses also able to buy the houses that are new in construction. Hence this dataset particularly interested me based on the facts that we can find the below mentioned statistical and analytical questions from this dataset. This project interested me as the goal of the project is to create the model that can best predict home prices in California state.This is purely an academic endeavor to explore statistical prediction.
+
+**The Questions that can be asked on my dataset.**
+
+##### 1) Geographical proximity of the house to the ocean.
+
+##### 2) House Plan Type (No. of rooms, bedrooms).
+
+##### 3) Median of Age of house (house is Old or New).
+
+##### 4) Population concentration based on the area.
+
+##### 5) Median of Income of the people in that house block based on the proximity to the ocean.
+
+##### 6) Prediction of house prices based on proximity to ocean.
+
+##### 7) Latitude & Longitude of population & their prices of house.
+
+
+<u><b><i><h3>Data Covering.</h3></i></b></u>
+
+##### The dataset covers Latitudes longitudes of house block based on nearness (proximity) to the sea/ocean. Median of the house block income. Median of age of house (old or new), Prediction of house price based on proximity to sea facing. Population of people confined to the specific area's.
+
+
+<u><b><i><h3>Data Source.</h3></i></b></u>
+
+##### The data was sourced from Kaggle as follows:
+[https://www.kaggle.com/camnugent/california-housing-prices](https://www.kaggle.com/camnugent/california-housing-prices)
+
+
+<u><b><i><h3>Data Collection.</h3></i></b></u>
+
+##### The data was collected using all the house block groups in California from the 1990 Census. In this sample a block group on average includes 1425.5 individuals living in a geographically located area. The geographical area included varied inversely with the population density. The distances were computed among the centre of each block group as measured in latitude and longitude. All the block groups that reported zero entries for the independent and dependent variables were removed. The final data contained 20,640 observations on 10 variables.
+
+
+<u><b><i><h3>Cases.</h3></i></b></u>
+
+##### 20,640 observations on 10 variables.
+
+##### 1. longitude: A measure of how far west a house is.
+
+##### 2. latitude: A measure of how far north a house is.
+
+##### 3. housing_median_age: Median age of a house within a block; a lower number is a newer building.
+
+##### 4. total_rooms: Total number of rooms within a block.
+
+##### 5. total_bedrooms: Total number of bedrooms within a block.
+
+##### 6. population: Total number of people residing within a block.
+
+##### 7. households: Total number of households, a group of people residing within a home unit, for a block.
+
+##### 8. median_income: Median income for households within a block of houses.
+
+##### 9. ocean_proximity: Location of the house w.r.t ocean/sea.
+
+##### 10. median_house_value: Median house value for households within a block (in US Dollars).
+
+
+<u><b><i><h4>What are the variables that we shall be studying on the Dataset?</h4></i></b></u>
+
+##### The variables represent Latitude, Longitude, Housing median, Total rooms, Total bedrooms, Population, Median house, Median income and Ocean Proximity.
+
+
+```{r, echo=TRUE}
+library(tibble)
+library(RColorBrewer)
+library(ggplot2)
+library(dplyr)
+cool_colors <- brewer.pal(5, "Set2")
+housing_data <- read.csv("housing.csv")
+housing_data_tibble <- as_tibble(housing_data)
+head(housing_data_tibble)
+```
+
+
+
+<u><b><i><h4>What kind of study was this?</h4></i></b></u>
+
+##### This was an observational study for statistical prediction of housing prices.
+
+
+```{r, echo=TRUE}
+summary(housing_data_tibble)
+```
+
+
+<u><b><i><h4>Performing Wrangling (Data Quality Checks).</h4></i></b></u> 
+
+##### (i) Missing data.
+
+##### (ii) Duplicates. 
+ 
+ 
+```{r, echo=TRUE}
+sum(is.na(housing_data_tibble))
+```
+
+
+##### We removed 207 missing data from Observations.
+
+
+```{r, echo=TRUE}
+sum(duplicated(housing_data_tibble))
+```
+
+##### There were no duplicate values in the observation.
+
+<u><b><i><h4>Exploratory Data Analysis.</h4></i></b></u>
+
+
+_**Q) What was I curious to know about from the data that I have selected?**_
+
+##### A) I have selected this dataset as I was curious to analyze and predict the median of  pricing of the houses that are based on the particular block in the state of California. There is a widespread news about the houses in California are becoming more and more expensive based on the their location, people with higher income able to afford the sea side houses also able to buy the houses that are new. Hence this dataset particularly interested me based on the facts that we can find the below mentioned statistical & analytically questions from this dataset. This project interested me as the goal of the project is to create the model that can best predict home prices in California.This is purely an academic endeavor to explore statistical prediction in the housing.
+
+
+<u><b><i><h4>DATA</h4></i></b></u>  
+_**Q-i) What was the Data source?**_
+
+##### A-i) The data was sourced from Kaggle as follows
+[https://www.kaggle.com/camnugent/california-housing-prices](https://www.kaggle.com/camnugent/california-housing-prices)
+
+_**Q-ii) From where was the Data Collected?**_ 
+
+##### A-ii) The data was collected using all the house block groups in California from the 1990 Census. In this sample, a block group on average includes 1425.5 individuals living in a geographically located area. The geographical area included varied inversely with the population density. The distances were computed among the center of each block group as measured in latitude and longitude. All the block groups that reported zero entries for the independent and dependent variables were removed. The final data contained 20,640 observations on 10 variables.This was an observational study for statistical prediction.
+
+_**Q-iii) What were the units of observation?**_
+
+_**Q-iv) Variables.**_
+
+##### Aiii-iv) There were below mentioned observations & each row meant as per below given:-
+
+##### 20,640 observations on 10 variables.
+
+##### 1. longitude: A measure of how far west a house is.
+
+##### 2. latitude: A measure of how far north a house is.
+
+##### 3. housing_median_age: Median age of a house within a block; a lower number is a newer building.
+
+##### 4. total_rooms: Total number of rooms within a block.
+
+##### 5. total_bedrooms: Total number of bedrooms within a block.
+
+##### 6. population: Total number of people residing within a block.
+
+##### 7. households: Total number of households, a group of people residing within a home unit, for a block.
+
+##### 8. median_income: Median income for households within a block of houses.
+
+##### 9. ocean_proximity: Location of the house w.r.t ocean/sea.
+
+##### 10. median_house_value: Median house value for households within a block (in US Dollars).
+
+```{r, echo=TRUE}
+head(housing_data_tibble)
+```
+
+_**Q-V) Data Wrangling (Quality check & Clean up).**_
+
+##### A-V) (i) Missing data clean up. (ii) Duplicates clean up. 
+ 
+```{r, echo=TRUE}
+sum(is.na(housing_data_tibble))
+```
+
+We removed & cleaned 207 missing data from Observations.
+
+```{r, echo=TRUE}
+sum(duplicated(housing_data_tibble))
+```
+
+We cleaned up duplicate values in the observation, & found no duplicate values in dataset.
+
+##### After the clean up of the data, we shall visualize the given data to get some basic insights of numeric variables. Through the plot of histogram.
+
+<u><b><i><h4>Performing Exploratory Data Analysis.</h4></i></b></u>
+
+_**Q-1) What is the proximity (nearness) of the houses from the ocean ?**_
+
+```{r, echo=TRUE}
+household_ocean <- data.frame(matrix(nrow = 5, ncol = 2))
+colnames(household_ocean) <- c("Ocean Proximity","Household Count")
+household_ocean[,1]<-c("<1H","INLAND","ISLAND","NEARBAY","NEAROCEAN")
+household_ocean[,2]<-c(sum(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="<1H OCEAN"])
+                       ,sum(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="INLAND"])
+                       ,sum(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="ISLAND"])
+                       ,sum(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="NEAR BAY"])
+                       ,sum(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="NEAR OCEAN"])
+)
+barplot( height = household_ocean[,2]
+         , col = cool_colors
+         , main = "Households by Ocean Proximity"
+         , ylab = "count of households"
+         , xlab = "proximity"
+         ,names.arg = household_ocean[,1]
+)
+
+```
+
+This shows that more households mean more people living in that area. From the graph it is easily visible that households which are more than 1 hour distance from ocean is highest. 
+
+_**Q-2) What are the households by age?**_
+
+```{r, echo=TRUE}
+age_level <- c(0,5,10,15,20,25,30,35,40,45,50,55)
+headers <- c("0 to 5","5 to 10", "10 to 15", "15 to 20", "20 to 25","25 to 30",
+             "30 to 35","35 to 40","40 to 45","45 to 50", "50 to 55")
+housing_data_tibble <- transform(housing_data_tibble, age_cut = cut(housing_median_age, age_level, labels = headers))
+barplot( height = rowsum(housing_data_tibble$households,housing_data_tibble$age_cut)[,1]
+         , las = 1
+         , col = "#52338B"
+         , border = NA  # eliminates borders around the bars
+         , main = "Households by Median Age"
+         , ylab = "count of households"
+         , xlab = "Age"
+         , ylim = c(0,2000000)
+)
+
+
+```
+
+The above graph tells us the median age of all the households in California. This looks like a normal distribution where most of the households are of 15–35 years old.
+
+_**Q-3) What are the households by median income?**_
+
+```{r, echo=TRUE}
+housing_data_tibble$median_income<-housing_data_tibble$median_income*10000
+income_level <- c(0,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000,110000,120000,130000,140000,150000,Inf)
+headers_income <- c("0-10k", "10k-20k", "20k-30k","30k-40k", "40k-50k", "50k-60k","60k-70k","70k-80k","80k-90k","90k-100k" 
+                    ,"100k-110k","110k-120k","120k-130k","130k-140k","140k-150k"," >150k")
+housing_data_tibble <- transform(housing_data_tibble, income_cut = cut(median_income, income_level, labels = headers_income))
+household_income_bay <- data.frame(matrix(nrow=2290,ncol = 2))
+colnames(household_income_bay) <- c("households","incomecut")
+household_income_bay[,1]<-c(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="NEAR BAY"])
+household_income_bay[,2]<-c(headers_income[housing_data_tibble$income_cut[housing_data_tibble$ocean_proximity=="NEAR BAY"]])
+household_income_ocean <- data.frame(matrix(nrow=2658,ncol = 2))
+colnames(household_income_ocean) <- c("households","incomecut")
+household_income_ocean[,1]<-c(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="NEAR OCEAN"])
+household_income_ocean[,2]<-c(headers_income[housing_data_tibble$income_cut[housing_data_tibble$ocean_proximity=="NEAR OCEAN"]])
+household_income_1H <- data.frame(matrix(nrow=9136,ncol = 2))
+colnames(household_income_1H) <- c("households","incomecut")
+household_income_1H[,1]<-c(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="<1H OCEAN"])
+household_income_1H[,2]<-c(headers_income[housing_data_tibble$income_cut[housing_data_tibble$ocean_proximity=="<1H OCEAN"]])
+household_income_inland <- data.frame(matrix(nrow=6551,ncol = 2))
+colnames(household_income_inland) <- c("households","incomecut")
+household_income_inland[,1]<-c(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="INLAND"])
+household_income_inland[,2]<-c(headers_income[housing_data_tibble$income_cut[housing_data_tibble$ocean_proximity=="INLAND"]])
+household_income_island <- data.frame(matrix(nrow=5,ncol = 2))
+colnames(household_income_island) <- c("households","incomecut")
+household_income_island[,1]<-c(housing_data_tibble$households[housing_data_tibble$ocean_proximity=="ISLAND"])
+household_income_island[,2]<-c(headers_income[housing_data_tibble$income_cut[housing_data_tibble$ocean_proximity=="ISLAND"]])
+barplot( height = rowsum(housing_data_tibble$households,housing_data_tibble$income_cut)[,1]
+         , las = 1
+         , col = "#52338B"
+         , border = NA  # eliminates borders around the bars
+         , main = "Households by Median Income"
+         , ylab = "count of households"
+         , xlab = "Income"
+         , ylim = c(0,3000000)
+         , space = 0.07
+)
+
+
+
+```
+
+This graph talks about the median income of the people living in a household. This will give us an idea of the price/rent of the houses they live in.
+
+_**Q-4) what is the median age by ocean proximity?**_ 
+
+```{r, echo=TRUE}
+boxplot(housing_data_tibble$housing_median_age ~ housing_data_tibble$ocean_proximity, data=housing_data_tibble,
+ xlab = "Ocean Proximity",
+ ylab="Median Age",
+ main="Age distribution according to ocean proximity")
+```
+
+The	median age of people who lives according to the ocean proximity.
+
+The "<1H OCEAN" on x-axis means the distance of the OCEAN from the house.
+
+(Note:- The 5th Box-Plot in the graph is getting cut in R studio, However it represents NEAR OCEAN.)
+
+<u><b><i><h3>Hypothesis</h3></i></b></u>
+
+_**Problem one:**_
+
+##### We shall try to find income of residents near the ocean proximity areas, this shall be evaluated. We can see here the income of the people who own the houses near the ocean is higher than the houses that are located other ocean proximity areas (definition of areas given below). So we formulate our hypothesis as:  
+
+
+```{r problem_1, echo=TRUE, include=TRUE}
+
+boxplot(housing_data$median_income~factor(housing_data$ocean_proximity),
+        xlab = "Median Income", ylab = "Ocean Proximity")
+housing_aov2 <- aov(housing_data$median_income~factor(housing_data$ocean_proximity))
+summary(housing_aov2)
+```
+
+##### The island, near ocean & bay area are considered as three different categories. The island is piece of land inside the sea, near ocean means less than one hour distance is considered near ocean, near bay is sea side facing house blocks.
+
+_**Hypothesis Testing on Problem one:**_
+
+##### Income of the people who own the houses near the ocean is higher than the other ocean proximity areas.
+
+_**Defining Hypothesis on Problem one:**_
+
+##### Ho: Income of the people who own the houses near the ocean is higher than the other ocean proximity areas.
+
+##### Ha: Income of the people who own the houses near the ocean is lower (lesser) than the other ocean proximity areas.
+
+_**Summary of Hypothesis one:**_
+
+##### This study shall pose an explanation on the people who live near ocean or on the island, these people have more (higher) income compared to other ocean proximity areas. This explanation shall help understand about, which people in certain income range can afford the house in specific ocean proximity areas or not.
+
+_**Problem two:**_
+
+##### We shall try to evaluate Mean of population according to ocean proximity. The Population residing on the island is less compared to other ocean proximity areas. So we formulate our hypothesis as:
+
+**Definition of population:** 
+
+##### Total number of people residing within a block of houses. Hence we find the Mean of those people who are residing in that block of houses
+
+```{r problem_2, echo=TRUE, include=TRUE}
+housing_data_tibble %>% group_by(ocean_proximity) %>% summarise(population = mean(population))
+t.test(housing_data$population, mu=0, conf.level = 0.95)
+```
+
+_**Hypothesis Testing on Problem two:**_
+
+##### Population of the island is less compared to other ocean proximity.
+
+_**Defining Hypothesis on Problem two:**_
+
+##### Ho: Population of the island is less compared to other ocean proximity.
+
+##### Ha: Population of the island is more compared to other ocean proximity.
+
+_**Summary of Hypothesis two:**_ 
+
+##### This study shall pose an explanation on the people who live on the island are less (fewer) than other ocean proximity areas. The present explanation will help to understand where people live the most and which ocean proximity has dense population.
+
+<u><b><i><h3>Linear Regression</h3></i></b></u>
+
+##### In Linear Regression there are two variables which are related through an equation. 
+
+y is the response variable
+x is the predictor variable.
+
+##### In our case x is median_income and y is median_house_value.
+
+##### After that we created relationship model and got the coefficients using lm()
+
+```{r housing_linear_regression, echo=TRUE, include=TRUE}
+
+x <- housing_data_tibble$median_income
+y <- housing_data_tibble$median_house_value
+
+housing_model <- lm(y ~ x)
+print(summary(housing_model)) 
+
+z <- data.frame(x =  252900)  
+housing_predict_result <-  predict(housing_model,z)
+
+print(housing_predict_result)
+
+plot(x, y,col = "green",main = "Median Income and Median House Value Regression",
+abline(housing_model),cex = 0.5,pch = 1.1,xlab = "Median Income",ylab = "Median House Value")
+
+```
+
+##### using predict() we gave the new value for the predictor median of income so that we can predict the house value which that person can afford.
+
+##### Overall, our estimation was as good as we could get with by the technique of linear regression. There were many issues though, however, that can be considered as follows: 
+##### (i) The data was extremely random.
+##### (ii) The correlation was very poor.
+
+<u><b><i><h3>Conclusion</h3></i></b></u>
+_**Major Findings & Goals**_
+
+##### From the dataset, I was able to predict the price of houses in CA state since 1990, based on the possible location-based predictors, such as Latitude, Longitude, and the relevant information about other houses within a particular set of blocks. Overall, the Information seen from the dataset was supportive of the ongoing prices of houses in the state of CA, by the means of simple explorative and visual methods we plotted the graphs which clearly showed us where the clustering of highly priced to medium-priced houses distribution were in that particular block. The goal of the project was to predict from the dataset the housing prices in CA. 
+
+_**Limitations**_
+
+##### While the project focused on prediction and it's accuracy, I was fully aware that housing prices have increased considerably since the data had been collected in 1990. This model can not be used to predict today’s current housing prices and it is only limited to CA. Also since the population and their income has changed drastically post pandemic it can be considered as one of the limiting factors of the dataset containing census. This is a purely academic endeavor to explore statistical prediction. The accuracy of the model can be enhanced even further if the updating of data is been done from time-to-time.
+
+_**Future work**_
+
+##### More data can be added to the dataset and updated till the latest census. By doing that one may be able to accurately predict the latest prices of housing in the state of CA. To adequately model housing in CA, one may have to include a clustering algorithm and transformations on many of its features prior to the regression technique. One can also expand the prediction for different geographical locations such as other states in USA.
+
+<u><b><i><h3>References</h3></i></b></u>
+
+While reading about the dataset I came across two interesting articles on the Internet for reference, ideas & information.
+
+https://www.kaggle.com/camnugent/california-housing-prices    
+
+[https://medium.com/analytics-vidhya/end-to-end-maching-learning-project-predicting-house-prices-in-california-2e95171d49cc](https://medium.com/analytics-vidhya/end-to-end-maching-learning-project-predicting-house-prices-in-california-2e95171d49cc)
+
+
+[https://www.washingtonpost.com/business/2022/01/10/2022-housing-market-predictions/](https://www.washingtonpost.com/business/2022/01/10/2022-housing-market-predictions/)
+
+
+[https://managecasa.com/articles/california-housing-market-report/](https://managecasa.com/articles/california-housing-market-report/)
+
+https://rstudio-pubs-static.s3.amazonaws.com/617841_020b1c3834334c1c8c3e0ec67645775b.html#report_summary    
+
+
+_**-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**_
