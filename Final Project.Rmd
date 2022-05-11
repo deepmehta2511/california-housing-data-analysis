@@ -7,6 +7,8 @@ output:
   pdf_document: default
   word_document: default
 ---
+<b><h3>Github: </b></h3><a href="https://github.com/deepmehta2511/california-housing-data-analysis/">https://github.com/deepmehta2511/california-housing-data-analysis/</a>
+<b><h3>Project Website (Blog Post): </b></h3><a href="https://deepmehta2511.github.io/california-housing-data-analysis/">https://deepmehta2511.github.io/california-housing-data-analysis/</a> 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
